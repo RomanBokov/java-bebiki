@@ -1,0 +1,16 @@
+DELETE https://crudcrud.com/api/3137b1b269f34a319561af1632fdad88/student/6708837da0a8cd03e818a3ab
+Accept: application/json
+
+###
+GET https://crudcrud.com/api/3137b1b269f34a319561af1632fdad88/student/6708837da0a8cd03e818a3ab
+Accept: application/json
+
+###
+POST  https://crudcrud.com/api/3137b1b269f34a319561af1632fdad88/student
+Content-Type: application/json
+
+{
+  "name" : "Вася Пупкин",
+  "grade" : 2
+}
+
