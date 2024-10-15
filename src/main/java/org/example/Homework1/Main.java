@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Homework1;
 
 
 
@@ -9,8 +9,6 @@ import org.example.Homework1.Student.Student;
 import org.example.task1.BankAccount;
 import org.example.Notification.Notification;
 import org.example.Homework1.Point.Point;
-
-import java.awt.*;
 
 
 public class Main {

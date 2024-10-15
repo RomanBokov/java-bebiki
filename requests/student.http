@@ -1,12 +1,12 @@
-DELETE https://crudcrud.com/api/3137b1b269f34a319561af1632fdad88/student/6708837da0a8cd03e818a3ab
+DELETE https://crudcrud.com/api/a49a929b43a34adea37ab5611e453404/student/670c34f2a0a8cd03e818a743
 Accept: application/json
 
 ###
-GET https://crudcrud.com/api/3137b1b269f34a319561af1632fdad88/student/6708837da0a8cd03e818a3ab
+GET https://crudcrud.com/api/a49a929b43a34adea37ab5611e453404/student/670c34f2a0a8cd03e818a743
 Accept: application/json
 
 ###
-POST  https://crudcrud.com/api/3137b1b269f34a319561af1632fdad88/student
+POST  https://crudcrud.com/api/a49a929b43a34adea37ab5611e453404/student
 Content-Type: application/json
 
 {

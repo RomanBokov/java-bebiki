@@ -12,7 +12,9 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("io.rest-assured:rest-assured:3.0.0")
+    testImplementation("io.rest-assured:rest-assured:4.5.1")
+    testImplementation("com.github.javafaker:javafaker:1.0.2")
+    testImplementation( "com.fasterxml.jackson.core:jackson-databind:2.10.2")
 
 }
 
