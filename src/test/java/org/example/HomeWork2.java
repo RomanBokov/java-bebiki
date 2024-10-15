@@ -5,6 +5,7 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import org.apache.http.HttpStatus;
 import org.example.api.UnicormRequests;
+import org.example.api.models.Unicorm;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.Locale;
@@ -30,10 +31,9 @@ public class HomeWork2 {
         String fakerColor = String.valueOf(faker.color().name());
         String fakerName = String.valueOf(faker.name().name());
 
-        String id = UnicormRequests.createUnicorm("{\n" +
-                "  \"name\" : \""+  fakerName +"\" ,\n" +
-                "  \"color\" : \"" + fakerColor +"\"\n" +
-                "}");
+        Unicorm unicorm = new Unicorm(fakerName,fakerColor);
+
+        String id = UnicormRequests.createUnicorm(unicorm.toJson());
 
     }
     @Test
@@ -44,11 +44,8 @@ public class HomeWork2 {
         Faker faker = new Faker(new Locale("ru"));
         String fakerColor = String.valueOf(faker.color().name());
         String fakerName = String.valueOf(faker.name().name());
-
-        String id = UnicormRequests.createUnicorm("{\n" +
-                "  \"name\" : \""+  fakerName +"\" ,\n" +
-                "  \"color\" : \"" + fakerColor +"\"\n" +
-                "}");
+        Unicorm unicorm = new Unicorm(fakerName,fakerColor);
+        String id = UnicormRequests.createUnicorm(unicorm.toJson());
 
         // шаг 2 удаление студента
         UnicormRequests.deleteUnicorm(id);
@@ -70,17 +67,12 @@ public class HomeWork2 {
         String fakerName = String.valueOf(faker.name().name());
         String fakerColor2 = String.valueOf(faker.color().name());
 
-        String id = UnicormRequests.createUnicorm("{\n" +
-                "  \"name\" : \""+  fakerName +"\" ,\n" +
-                "  \"color\" : \"" + fakerColor +"\"\n" +
-                "}");
+        Unicorm unicorm = new Unicorm(fakerName,fakerColor);
+        String id = UnicormRequests.createUnicorm(unicorm.toJson());
         //шаг 2 обновление единорога
-        String body = "{\n" +
-                "  \"name\" : \""+  fakerName +"\" ,\n" +
-                "  \"color\" : \"" + fakerColor2 +"\"\n" +
-                "}";
+        Unicorm unicorm2 = new Unicorm(fakerName,fakerColor2);
 
-        UnicormRequests.updateUnicorm(id,body);
+        UnicormRequests.updateUnicorm(id,unicorm2.toJson());
         //шаг 3 проверяем что данные обновились
         String colorResponse = given()
                 .get(baseURI +"/unicorm/"+ id)
