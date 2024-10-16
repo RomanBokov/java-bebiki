@@ -1,25 +1,30 @@
 package org.example.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
-import io.restassured.mapper.ObjectMapper;
 
-import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.util.*;
+import io.restassured.mapper.ObjectMapperType;
+import org.example.api.models.Unicorm;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasKey;
 
 public class UnicormRequests {
-    private static Object ArrayList;
 
-    public static String createUnicorm(String body) {
+
+    public static Unicorm createUnicorm(Unicorm unicorm)  {
+
+        String unicormJson = null;
+        try {
+            unicormJson = new ObjectMapper().writeValueAsString(unicorm);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         return given()
-                .body(body)
+                .body(unicormJson)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/unicorm")
@@ -27,29 +32,38 @@ public class UnicormRequests {
                 .assertThat()
                 .statusCode(201)
                 .body("$", hasKey("_id"))
-                .extract()
-                .path("_id");
+                .extract().as(Unicorm.class, ObjectMapperType.GSON);
 
 
     }
 
     public static void deleteUnicorm(String id) {
-        given().delete("https://crudcrud.com/api/b6fd70ae9a624a528a5558c163ad7b60/unicorm/" + id)
+        given().delete("https://crudcrud.com/api/ec7700a1b55a4f3ebb7002bac5079d5c/unicorm/" + id)
                 .then()
                 .assertThat()
                 .statusCode(200);
     }
 
-    public static void updateUnicorm(String id, String body) {
+    public static void updateUnicorm(String id, Unicorm unicorm) {
+        String unicormJson = null;
+        try {
+            unicormJson = new ObjectMapper().writeValueAsString(unicorm);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         given().given()
-                .body(body)
+                .body(unicormJson)
                 .contentType(ContentType.JSON)
                 .when()
-                .put("https://crudcrud.com/api/b6fd70ae9a624a528a5558c163ad7b60/unicorm/" + id)
+                .put("https://crudcrud.com/api/ec7700a1b55a4f3ebb7002bac5079d5c/unicorm/" + id)
                 .then()
                 .assertThat()
                 .statusCode(200);
     }
+
+
+
 
 
 }

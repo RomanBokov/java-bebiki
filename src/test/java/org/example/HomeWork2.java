@@ -20,7 +20,7 @@ public class HomeWork2 {
     @BeforeAll
     public static   void setupTest(){
         RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
-        baseURI = "https://crudcrud.com/api/b6fd70ae9a624a528a5558c163ad7b60";
+        baseURI = "https://crudcrud.com/api/ec7700a1b55a4f3ebb7002bac5079d5c";
 
     }
 
@@ -31,9 +31,10 @@ public class HomeWork2 {
         String fakerColor = String.valueOf(faker.color().name());
         String fakerName = String.valueOf(faker.name().name());
 
-        Unicorm unicorm = new Unicorm(fakerName,fakerColor);
+        Unicorm unicorm = Unicorm.builder().name(fakerName).color(fakerColor).build();
 
-        String id = UnicormRequests.createUnicorm(unicorm.toJson());
+
+        Unicorm createdUnicorn = UnicormRequests.createUnicorm(unicorm);
 
     }
     @Test
@@ -44,15 +45,15 @@ public class HomeWork2 {
         Faker faker = new Faker(new Locale("ru"));
         String fakerColor = String.valueOf(faker.color().name());
         String fakerName = String.valueOf(faker.name().name());
-        Unicorm unicorm = new Unicorm(fakerName,fakerColor);
-        String id = UnicormRequests.createUnicorm(unicorm.toJson());
+        Unicorm unicorm = Unicorm.builder().name(fakerName).color(fakerColor).build();
+        Unicorm createdUnicorn = UnicormRequests.createUnicorm(unicorm);
 
         // шаг 2 удаление студента
-        UnicormRequests.deleteUnicorm(id);
+        UnicormRequests.deleteUnicorm(createdUnicorn.getId());
 
         // шаг 3 проверить что единорог не существует
         given()
-                .get(baseURI +"/unicorm/"+ id)
+                .get(baseURI +"/unicorm/"+ createdUnicorn)
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
@@ -67,15 +68,15 @@ public class HomeWork2 {
         String fakerName = String.valueOf(faker.name().name());
         String fakerColor2 = String.valueOf(faker.color().name());
 
-        Unicorm unicorm = new Unicorm(fakerName,fakerColor);
-        String id = UnicormRequests.createUnicorm(unicorm.toJson());
+        Unicorm unicorm = Unicorm.builder().name(fakerName).color(fakerColor).build();
+        Unicorm createdUnicorn = UnicormRequests.createUnicorm(unicorm);
         //шаг 2 обновление единорога
-        Unicorm unicorm2 = new Unicorm(fakerName,fakerColor2);
+        Unicorm unicorm2 = Unicorm.builder().name(fakerName).color(fakerColor2).build();
 
-        UnicormRequests.updateUnicorm(id,unicorm2.toJson());
+        UnicormRequests.updateUnicorm(createdUnicorn.getId(),unicorm2);
         //шаг 3 проверяем что данные обновились
         String colorResponse = given()
-                .get(baseURI +"/unicorm/"+ id)
+                .get(baseURI +"/unicorm/"+ createdUnicorn.getId())
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK)
